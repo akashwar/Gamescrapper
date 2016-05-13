@@ -3,6 +3,7 @@
 A python script that generates desktop notification informing about the current price of Console games sold by gameloot.in —
 
 **Requirements**:
+
 1. requests
 2. BeautifulSoup
 3. pynotify
