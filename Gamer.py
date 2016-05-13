@@ -1,21 +1,38 @@
 from bs4 import BeautifulSoup
 import pynotify
 import requests
+import sys
 
 def main():
-	r = requests.get("http://gameloot.in/product-category/pre-owned/?swoof=1&pa_platforms=ps3&really_curr_tax=50-product_cat")
-	data = r.text
-	soup = BeautifulSoup(data)
 	
 	pynotify.init('test')
-	pynotify.init("Basic")
 	
+	platform = raw_input("Enter the platform to search (ps4,ps3,xbox-one,xbox-360):")
+
+	for i in range(1,6):
+		url = "http://gameloot.in/product-category/pre-owned/page/" + str(i) + "/?swoof=1&pa_platforms=" + platform + "&really_curr_tax=50-product_cat" 
+		r = requests.get(url)
+		data = r.text
+		soup = BeautifulSoup(data)
+		notify(soup)
+
+	pass
+	
+def notify(soup):
 	finalgamelist= getgamename(soup)
 	finallist = getprice(soup)
+     
+	res = "" 
 
 	for i,row in enumerate(finalgamelist):
-		n = pynotify.Notification("Gameloot",row + finallist[i])	
+			res = res + row	+ finallist[i] + "\n"
+	if res:
+		n = pynotify.Notification("Gameloot",res)
+		n.set_timeout(10000)	
 		n.show()
+ 
+	pass
+
 
 def getgamename(soup):
 	extractedgame = soup.select('div.product_details')
