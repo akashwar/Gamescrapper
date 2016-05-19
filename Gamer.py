@@ -13,7 +13,7 @@ def main():
 		url = "http://gameloot.in/product-category/pre-owned/page/" + str(i) + "/?swoof=1&pa_platforms=" + platform + "&really_curr_tax=50-product_cat" 
 		r = requests.get(url)
 		data = r.text
-		soup = BeautifulSoup(data)
+		soup = BeautifulSoup(data,"lxml")
 		notify(soup)
 
 	pass
@@ -21,11 +21,12 @@ def main():
 def notify(soup):
 	finalgamelist= getgamename(soup)
 	finallist = getprice(soup)
+	finalstockstate = getstockstatus(soup)
      
 	res = "" 
 
 	for i,row in enumerate(finalgamelist):
-			res = res + row	+ finallist[i] + "\n"
+			res = res + row	+ finallist[i] + " " + finalstockstate[i].upper()  + "\n"
 	if res:
 		n = pynotify.Notification("Gameloot",res)
 		n.set_timeout(10000)	
@@ -56,6 +57,17 @@ def getprice(soup):
 
 	return finallist
 	
+def getstockstatus(soup):
+	extractedstock = []
+	extracted = soup.find_all('div',{"class":"tcol-md-3 tcol-sm-4 tcol-xs-6 tcol-ss-12 kad_product"})
+	for i in extracted:
+		temp = i.find('div',{"class":"in-stock"})
+		if not temp:
+			extractedstock.append("#Out of stock")
+		else:
+			extractedstock.append("#" + temp.contents[0])
+
+	return extractedstock
 
 if __name__ == '__main__':
 	main()
