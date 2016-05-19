@@ -15,5 +15,4 @@ Enter the platform to search (ps4,ps3,xbox-one,xbox-360):ps4
 Make sure you are connected to the Internet.
 
 Your machine will show notification as below:
-
-![ScreenShot](https://github.com/akashwar/Gamescrapper/blob/master/notif.png)
+![ScreenShot](https://github.com/akashwar/Gamescrapper/blob/master/noti1.png)
