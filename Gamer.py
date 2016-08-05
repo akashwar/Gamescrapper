@@ -11,7 +11,7 @@ def main():
 
 	for i in range(1,6):
 		url = "http://gameloot.in/product-category/pre-owned/page/" + str(i) + "/?swoof=1&pa_platforms=" + platform + "&really_curr_tax=50-product_cat" 
-		r = requests.get(url)
+		r = requests.get(url,verify=False)
 		data = r.text
 		soup = BeautifulSoup(data,"lxml")
 		notify(soup)
